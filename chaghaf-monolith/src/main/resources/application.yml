@@ -1,0 +1,64 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: chaghaf-monolith
+  mvc:
+    async:
+      request-timeout: -1   
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:dpg-d7f7dcdckfvc73dopob0-a}:${DB_PORT:5432}/${DB_NAME:chaghaf_bd}
+    username: ${DB_USER:chaghaf_bd_user}
+    password: ${DB_PASS:FWRaguZzbhJbKFQ4JxhEtjmP6g8E7Jjr}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        default_schema: public
+    open-in-view: false
+
+  kafka:
+    bootstrap-servers: ${KAFKA_HOST:localhost}:${KAFKA_PORT:9092}
+    consumer:
+      group-id: chaghaf-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+jwt:
+  secret: ${JWT_SECRET:chaghaf-super-secret-key-2025-agadir-morocco-production}
+  expiration: 86400000
+  refresh-expiration: 604800000
+
+firebase:
+  credentials-path: ${FIREBASE_CREDENTIALS:/app/config/firebase-service-account.json}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    ma.chaghaf: DEBUG
+    org.springframework.security: INFO
+    org.hibernate.SQL: WARN
