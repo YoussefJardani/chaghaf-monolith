@@ -1,12 +1,15 @@
 FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
 
+# pom.xml est à la RACINE du repo
 COPY pom.xml .
 RUN mvn dependency:go-offline -q
 
-COPY src ./src
+# src est dans chaghaf-monolith/
+COPY chaghaf-monolith/src ./src
 RUN mvn clean package -DskipTests -q
 
+# ── Image finale légère ──────────────────────────────────────────
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
