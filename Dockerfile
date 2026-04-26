@@ -2,11 +2,11 @@ FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
 
 # Copier pom.xml séparément pour profiter du cache Docker
-COPY pom.xml .
+COPY chaghaf-monolith/pom.xml .
 RUN mvn dependency:go-offline -q
 
 # Copier les sources et compiler
-COPY src ./src
+COPY chaghaf-monolith/src ./src
 RUN mvn clean package -DskipTests -q
 
 # ── Image finale légère ──────────────────────────────────────────
