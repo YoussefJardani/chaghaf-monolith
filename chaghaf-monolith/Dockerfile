@@ -7,6 +7,7 @@ RUN mvn dependency:go-offline -q
 
 # src est dans chaghaf-monolith/
 COPY chaghaf-monolith/src ./src
+COPY chaghaf-monolith/src-additions/main/java/. ./src/main/java/
 RUN mvn clean package -DskipTests -q
 
 # ── Image finale légère ──────────────────────────────────────────
